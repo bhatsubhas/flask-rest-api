@@ -1,4 +1,4 @@
-from rest_api import app
+from rest_api.app import app
 from rest_api.db import db
 
 db.init_app(app)
