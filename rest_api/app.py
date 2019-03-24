@@ -7,7 +7,6 @@ from rest_api.security import authenticate, identity
 from rest_api.resources.user import UserRegister, UserDelete
 from rest_api.resources.item import Item, ItemList
 from rest_api.resources.store import Store, StoreList
-from rest_api.db import db
 
 app = Flask(__name__)
 app.secret_key = 'mys3cr3tk3y'
