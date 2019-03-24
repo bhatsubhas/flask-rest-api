@@ -17,12 +17,6 @@ app.config['JWT_AUTH_URL_RULE'] = '/login'
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800)
 api = Api(app)
 
-
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
-
 jwt = JWT(app, authenticate, identity)  # /login endpoint
 
 
@@ -48,9 +42,3 @@ api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(UserRegister, '/register')
 api.add_resource(UserDelete, '/remove/<string:username>')
-
-
-def run():
-    from rest_api.db import db
-    db.init_app(app)
-    app.run(port=5000, debug=True)
