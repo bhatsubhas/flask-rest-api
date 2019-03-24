@@ -10,7 +10,9 @@ from rest_api.resources.store import Store, StoreList
 
 app = Flask(__name__)
 app.secret_key = 'mys3cr3tk3y'
-app.config.from_pyfile('app.cfg')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['JWT_AUTH_URL_RULE'] = '/login'
 # JWT will expire after half an hour
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800)
 api = Api(app)
