@@ -13,7 +13,8 @@ app = Flask(__name__)
 app.secret_key = 'mys3cr3tk3y'
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite:///data.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL', 'sqlite:///data.db')
 app.config['JWT_AUTH_URL_RULE'] = '/login'
 # JWT will expire after half an hour
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800)
@@ -44,4 +45,3 @@ api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(UserRegister, '/register')
 api.add_resource(UserDelete, '/remove/<string:username>')
-
