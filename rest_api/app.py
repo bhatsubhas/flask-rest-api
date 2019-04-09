@@ -45,3 +45,16 @@ api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(UserRegister, '/register')
 api.add_resource(UserDelete, '/remove/<string:username>')
+
+
+@app.route('/api', methods=['GET'])
+def list_routes():
+    result = []
+    for rt in app.url_map.iter_rules():
+        result.append(
+            {
+                'methods': list(rt.methods),
+                'routes': str(rt)
+            }
+        )
+    return jsonify(result)
