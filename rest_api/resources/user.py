@@ -19,12 +19,15 @@ class UserRegister(Resource):
     def post(self):
         data = UserRegister.parser.parse_args()
 
-        if UserModel.find_by_username(data['username']):
-            return {"message": "A user with that name already exists"}, 400
+        username = data['username']
+        if UserModel.find_by_username(username):
+            return {
+                "message": f"A user with name '{username}' already exists"
+            }, 400
 
         user = UserModel(**data)
         user.save_to_db()
-        return {"message": "User created successfully"}, 201
+        return {"message": f"User '{username}' created successfully"}, 201
 
 
 class UserDelete(Resource):
@@ -32,6 +35,6 @@ class UserDelete(Resource):
         user = UserModel.find_by_username(username)
         if user:
             user.delete_from_db()
-            return {'message': "User '{}' deleted successfully".format(username)}, 200
+            return {'message': f"User '{username}' deleted successfully"}, 200
 
-        return {'message': "User '{}' not found".format(username)}, 400
+        return {'message': f"User '{username}' not found"}, 400

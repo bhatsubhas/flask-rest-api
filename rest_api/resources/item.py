@@ -80,7 +80,7 @@ store_id {store_id}"
             return {'message': 'Item deleted'}, 200
         return {
             'message': f"Item '{name}' with store_id {store_id} doesn't exist"
-            }, 400
+        }, 400
 
 
 class ItemList(Resource):
