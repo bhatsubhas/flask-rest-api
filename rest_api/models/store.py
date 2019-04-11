@@ -12,7 +12,10 @@ class StoreModel(db.Model):
         self.name = name
 
     def json(self):
-        return {'id': str(self.id), 'name': self.name, 'items': [ item.json() for item in self.items.all()]}
+        return {
+            'id': str(self.id),
+            'name': self.name,
+            'items': [item.json() for item in self.items.all()]}
 
     def save_to_db(self):
         db.session.add(self)
@@ -24,5 +27,8 @@ class StoreModel(db.Model):
 
     @classmethod
     def find_by_name(cls, name):
-        return StoreModel.query.filter_by(name=name).first()
+        return cls.query.filter_by(name=name).first()
 
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()

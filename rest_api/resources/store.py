@@ -15,15 +15,21 @@ class Store(Resource):
     @jwt_required()
     def post(self, name):
         if StoreModel.find_by_name(name):
-            return {'message': "A store with name '{}' alredy exists".format(name)}, 400
+            return {
+                'message': f"A store with name '{name}' already exists"
+            }, 400
 
         store = StoreModel(name)
         try:
             store.save_to_db()
         except:
-            return {'message': 'An error occurred while creating the store.'}, 500
+            return {
+                'message': 'An error occurred while creating the store.'
+            }, 500
 
-        return {'message': "Store '{}' created successfully.".format(name)}, 201
+        return {
+            'message': f"Store '{name}' created successfully."
+        }, 201
 
     @jwt_required()
     def delete(self, name):
@@ -32,12 +38,16 @@ class Store(Resource):
             try:
                 store.delete_from_db()
             except:
-                return {'message': 'An error occurred while deleting the store.'}, 500
+                return {
+                    'message': 'An error occurred while deleting the store.'
+                }, 500
 
-        return {'message': "Store '{}' is deleted!".format(name)}, 200
+        return {'message': f"Store '{name}' is deleted!"}, 200
 
 
 class StoreList(Resource):
     @jwt_required()
     def get(self):
-        return {'stores': [store.json() for store in StoreModel.query.all()]}, 200
+        return {
+            'stores': [store.json() for store in StoreModel.find_all()]
+        }, 200

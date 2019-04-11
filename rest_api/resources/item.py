@@ -30,13 +30,18 @@ class Item(Resource):
         item = ItemModel.find_by_name(name, store_id)
         if item:
             return item.json(), 200
-        return {'message': 'Item not found in store with store_id {}'.format(store_id)}, 404
+        return {
+            'message': f"Item '{name}' not found in store with \
+store_id {store_id}"
+        }, 404
 
     @jwt_required()
     def post(self, name):
         data = Item.parser1.parse_args()
         if ItemModel.find_by_name(name, data['store_id']):
-            return {'message': "An item with name '{}' already exists".format(name)}, 400
+            return {
+                'message': f"An item with name '{name}' already exists"
+            }, 400
 
         item = ItemModel(name, **data)
         try:
@@ -60,7 +65,9 @@ class Item(Resource):
         try:
             item.save_to_db()
         except:
-            return {'message': 'An error occurred updating/inserting the item.'}, 500
+            return {
+                'message': 'An error occurred updating/inserting the item.'
+            }, 500
         return item.json()
 
     @jwt_required()
@@ -71,10 +78,12 @@ class Item(Resource):
         if item:
             item.delete_from_db()
             return {'message': 'Item deleted'}, 200
-        return {'message': "Item with name '{}' and store_id {} does not exist".format(name, store_id)}, 400
+        return {
+            'message': f"Item '{name}' with store_id {store_id} doesn't exist"
+            }, 400
 
 
 class ItemList(Resource):
     @jwt_required()
     def get(self):
-        return {'items': [_.json() for _ in ItemModel.query.all()]}, 200
+        return {'items': [_.json() for _ in ItemModel.find_all()]}, 200
