@@ -30,11 +30,21 @@ class UserRegister(Resource):
         return {"message": f"User '{username}' created successfully"}, 201
 
 
-class UserDelete(Resource):
-    def delete(self, username):
-        user = UserModel.find_by_username(username)
+class User(Resource):
+    @classmethod
+    def get(cls, user_id):
+        user = UserModel.find_by_id(user_id)
+        if user:
+            return user.json()
+        return {'message': f"User with id '{user_id}' not found"}, 404
+
+    @classmethod
+    def delete(cls, user_id):
+        user = UserModel.find_by_id(user_id)
         if user:
             user.delete_from_db()
-            return {'message': f"User '{username}' deleted successfully"}, 200
+            return {
+                'message': f"User with id '{user_id}' deleted successfully"
+            }, 200
 
-        return {'message': f"User '{username}' not found"}, 400
+        return {'message': f"User with id '{user_id}' not found"}, 404
